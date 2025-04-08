@@ -26,7 +26,6 @@
         <option value="Tâm lý">Tâm lý</option>
     </select>
 
-    <!-- Dòng này được di chuyển xuống dưới -->
     <div class="info-bar">
         <span id="totalCount">Hiện có: 0 sinh viên</span>
     </div>
@@ -43,6 +42,25 @@
             <!-- Dữ liệu sẽ được thêm vào đây -->
         </tbody>
     </table>
+
+    <!-- Modal chi tiết -->
+    <div id="detailModal">
+        <div class="detail-content">
+            <span class="close-detail">&times;</span>
+            <div class="detail-body">
+                <img id="detailImage" src="default.jpg" alt="Ảnh">
+                <div class="info-text">
+                    <p><strong>Họ và Tên:</strong> <span id="detailName"></span></p>
+                    <p><strong>Ngày sinh:</strong> <span id="detailBirth"></span></p>
+                    <p><strong>Ngành học:</strong> <span id="detailMajor"></span></p>
+                    <p><strong>Mã sinh viên:</strong> <span id="detailID"></span></p>
+                    <p><strong>Quê quán:</strong> <span id="detailHome"></span></p>
+                    <p><strong>Hiện trú:</strong> <span id="detailLive"></span></p>
+                    <p><strong>Ngày nhập học:</strong> <span id="detailStart"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="scripttest.js"></script>
 </body>
