@@ -11,10 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const detailID = document.getElementById("detailId");
     const detailMajor = document.getElementById("detailMajor");
     const detailBirth = document.getElementById("detailBirth");
-    const detailGender = document.getElementById("detailGender");
-    const detailAddress = document.getElementById("detailAddress");
-    const detailPhone = document.getElementById("detailPhone");
-    const detailEmail = document.getElementById("detailEmail");
+    const detailHome = document.getElementById("detailHome");
+    const detailLive = document.getElementById("detailLive");
+    const detailStart = document.getElementById("detailStart");
 
     document.querySelector(".close-detail").onclick = () => detailModal.style.display = "none";
     window.onclick = function (event) {
@@ -33,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 .filter(line => line.trim() !== "")
                 .map(line => {
                     let cells = line.split(',').map(cell => cell.trim());
-                    while (cells.length < 9) cells.push(""); // đảm bảo đủ 9 cột
+                    while (cells.length < 8) cells.push(""); // đảm bảo đủ 8 cột
                     return cells;
                 });
 
@@ -57,11 +56,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 detailID.textContent = row[1];
                 detailMajor.textContent = row[2];
                 detailBirth.textContent = row[3] || "(chưa rõ)";
-                detailGender.textContent = row[4] || "(chưa rõ)";
-                detailAddress.textContent = row[5] || "(chưa rõ)";
-                detailPhone.textContent = row[6] || "(chưa rõ)";
-                detailEmail.textContent = row[7] || "(chưa rõ)";
-                detailImage.src = row[8] || "default.jpg";
+                detailHome.textContent = row[4] || "(chưa rõ)";
+                detailLive.textContent = row[5] || "(chưa rõ)";
+                detailStart.textContent = row[6] || "(chưa rõ)";
+                detailImage.src = row[7] || "default.jpg";
                 detailModal.style.display = "block";
             };
             tr.appendChild(nameCell);
