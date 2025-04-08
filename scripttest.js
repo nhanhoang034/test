@@ -44,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function renderTable(filteredData) {
         if (!tableBody) return;
-
         tableBody.innerHTML = "";
 
         filteredData.forEach(row => {
@@ -62,12 +61,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 detailLive.textContent = row[5] || "(chưa rõ)";
                 detailStart.textContent = row[6] || "(chưa rõ)";
 
-                // Thêm xử lý ảnh: nếu không có thì gán ảnh mặc định
-                let imgPath = row[7] && row[7] !== "" ? row[7] : "images/default.jpg";
-                if (!imgPath.startsWith("images/") && imgPath !== "default.jpg") {
-                    imgPath = "images/" + imgPath;
-                }
-                detailImage.src = imgPath;
+                // Gán đường dẫn ảnh từ CSV, dùng ảnh mặc định nếu không có
+                detailImage.src = row[7] && row[7].trim() !== "" ? row[7].trim() : "images/default.jpg";
 
                 detailModal.style.display = "block";
             };
