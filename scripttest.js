@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const detailModal = document.getElementById("detailModal");
     const detailImage = document.getElementById("detailImage");
     const detailName = document.getElementById("detailName");
-    const detailID = document.getElementById("detailId");
+    const detailID = document.getElementById("detailID");
     const detailMajor = document.getElementById("detailMajor");
     const detailBirth = document.getElementById("detailBirth");
     const detailHome = document.getElementById("detailHome");
