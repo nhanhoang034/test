@@ -5,50 +5,67 @@
     <title>Đăng nhập hệ thống</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Times New Roman', Times, serif;
             background: #f0f2f5;
             display: flex;
             height: 100vh;
             justify-content: center;
             align-items: center;
+            margin: 0;
         }
 
         .login-box {
             background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            width: 300px;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            width: 400px;
+            max-width: 90%;
+            box-sizing: border-box;
         }
 
         .login-box h2 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            font-size: 28px;
+            color: #333;
         }
 
         .login-box input {
             width: 100%;
-            padding: 10px;
-            margin: 8px 0;
+            padding: 14px 12px;
+            margin: 10px 0;
             border: 1px solid #ccc;
-            border-radius: 8px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Times New Roman', Times, serif;
+            box-sizing: border-box;
         }
 
         .login-box button {
             width: 100%;
-            padding: 10px;
+            padding: 14px;
             background: #4CAF50;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 16px;
+            font-size: 16px;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+        }
+
+        .login-box button:hover {
+            background: #45a049;
         }
 
         .login-box .error {
             color: red;
-            margin-top: 10px;
+            margin-top: 12px;
             text-align: center;
+            font-size: 14px;
+            font-family: 'Times New Roman', Times, serif;
         }
     </style>
 </head>
@@ -88,7 +105,7 @@
             const errorMsg = document.getElementById("errorMsg");
 
             if (accounts.length === 0) {
-                await loadAccounts(); // đảm bảo dữ liệu được tải
+                await loadAccounts();
             }
 
             const found = accounts.find(acc => acc.user === username && acc.pass === password);
@@ -101,12 +118,10 @@
             }
         }
 
-        // Tự động chuyển trang nếu đã đăng nhập
         if (localStorage.getItem("isLoggedIn") === "true") {
             window.location.href = "index.html";
         }
 
-        // Tải danh sách tài khoản khi trang load
         loadAccounts();
     </script>
 </body>
