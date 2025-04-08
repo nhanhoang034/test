@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh Sách</title>
     <link rel="stylesheet" href="styletest.css">
+    <style>
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .modal .detail-body {
+            display: flex;
+            gap: 20px;
+        }
+
+        .info-text p {
+            margin: 6px 0;
+        }
+    </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             if (localStorage.getItem("isLoggedIn") !== "true") {
@@ -33,7 +49,7 @@
         <option value="Tâm lý">Tâm lý</option>
     </select>
 
-    <button onclick="logout()">Đăng xuất</button>
+    <button class="logout-btn" onclick="logout()">Đăng xuất</button>
 
     <div class="info-bar">
         <span id="totalCount">Hiện có: 0 sinh viên</span>
@@ -60,8 +76,13 @@
                 <img id="detailImage" src="default.jpg" alt="Ảnh" style="width: 200px; height: auto;">
                 <div class="info-text">
                     <p><strong>Họ và Tên:</strong> <span id="detailName"></span></p>
-                    <p><strong>Ngày sinh:</strong> <span id="detailBirth"></span></p>
+                    <p><strong>Mã Sinh Viên:</strong> <span id="detailId"></span></p>
                     <p><strong>Ngành học:</strong> <span id="detailMajor"></span></p>
+                    <p><strong>Ngày sinh:</strong> <span id="detailBirth"></span></p>
+                    <p><strong>Giới tính:</strong> <span id="detailGender"></span></p>
+                    <p><strong>Quê quán:</strong> <span id="detailAddress"></span></p>
+                    <p><strong>Số điện thoại:</strong> <span id="detailPhone"></span></p>
+                    <p><strong>Email:</strong> <span id="detailEmail"></span></p>
                 </div>
             </div>
         </div>
@@ -71,12 +92,12 @@
         let students = [];
 
         async function fetchData() {
-            const res = await fetch('datatest.csv'); // file chứa dữ liệu sinh viên
+            const res = await fetch('datatest.csv');
             const text = await res.text();
             const lines = text.split(/\r?\n/).filter(line => line.trim() !== "");
             students = lines.map(line => {
-                const [name, id, major, birth, image] = line.split(',').map(x => x.trim());
-                return { name, id, major, birth, image };
+                const [name, id, major, birth, gender, address, phone, email, image] = line.split(',').map(x => x.trim());
+                return { name, id, major, birth, gender, address, phone, email, image };
             });
             displayStudents();
         }
@@ -110,8 +131,13 @@
 
         function showDetail(student) {
             document.getElementById("detailName").innerText = student.name;
-            document.getElementById("detailBirth").innerText = student.birth;
+            document.getElementById("detailId").innerText = student.id;
             document.getElementById("detailMajor").innerText = student.major;
+            document.getElementById("detailBirth").innerText = student.birth;
+            document.getElementById("detailGender").innerText = student.gender;
+            document.getElementById("detailAddress").innerText = student.address;
+            document.getElementById("detailPhone").innerText = student.phone;
+            document.getElementById("detailEmail").innerText = student.email;
             document.getElementById("detailImage").src = student.image || "default.jpg";
             document.getElementById("detailModal").style.display = "block";
         }
