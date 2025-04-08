@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng nhập hệ thống</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-box {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 300px;
+        }
+
+        .login-box h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 10px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .login-box .error {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2>Đăng nhập</h2>
+        <input type="text" id="username" placeholder="Tên đăng nhập">
+        <input type="password" id="password" placeholder="Mật khẩu">
+        <button onclick="login()">Đăng nhập</button>
+        <div class="error" id="errorMsg"></div>
+    </div>
+
+    <script>
+        let accounts = [];
+
+        async function loadAccounts() {
+            try {
+                const response = await fetch("account.csv");
+                const text = await response.text();
+                const lines = text.split(/\r?\n/);
+
+                accounts = lines
+                    .filter(line => line.trim() !== "")
+                    .map(line => {
+                        const [user, pass] = line.split(',').map(x => x.trim());
+                        return { user, pass };
+                    });
+
+            } catch (error) {
+                console.error("Lỗi khi tải file account.csv:", error);
+            }
+        }
+
+        async function login() {
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const errorMsg = document.getElementById("errorMsg");
+
+            if (accounts.length === 0) {
+                await loadAccounts(); // đảm bảo dữ liệu được tải
+            }
+
+            const found = accounts.find(acc => acc.user === username && acc.pass === password);
+
+            if (found) {
+                localStorage.setItem("isLoggedIn", "true");
+                window.location.href = "index.html";
+            } else {
+                errorMsg.textContent = "Sai tài khoản hoặc mật khẩu!";
+            }
+        }
+
+        // Tự động chuyển trang nếu đã đăng nhập
+        if (localStorage.getItem("isLoggedIn") === "true") {
+            window.location.href = "index.html";
+        }
+
+        // Tải danh sách tài khoản khi trang load
+        loadAccounts();
+    </script>
+</body>
+</html>
