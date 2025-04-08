@@ -123,6 +123,22 @@
         }
 
         loadAccounts();
+
+        // Bắt phím Enter để đăng nhập
+        document.addEventListener("DOMContentLoaded", function () {
+            const usernameInput = document.getElementById("username");
+            const passwordInput = document.getElementById("password");
+
+            function handleKeyPress(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    login();
+                }
+            }
+
+            usernameInput?.addEventListener("keypress", handleKeyPress);
+            passwordInput?.addEventListener("keypress", handleKeyPress);
+        });
     </script>
 </body>
 </html>
