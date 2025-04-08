@@ -32,14 +32,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 .filter(line => line.trim() !== "")
                 .map(line => {
                     let cells = line.split(',').map(cell => cell.trim());
-                    if (cells.length < 8) {
-                        while (cells.length < 8) cells.push(""); // đảm bảo đủ 8 cột
-                    }
+                    while (cells.length < 8) cells.push(""); // Đảm bảo đủ 8 cột
                     if (!cells[7]) cells[7] = "default.jpg";
                     return cells;
                 });
 
-            renderTable(data);
+            applyFilters(); // ban đầu hiển thị đầy đủ
         } catch (error) {
             console.error("🚨 Lỗi khi tải file CSV:", error);
         }
@@ -85,12 +83,12 @@ document.addEventListener("DOMContentLoaded", function () {
         totalCount.textContent = `Hiện có: ${count} sinh viên`;
     }
 
-    function filterAndRender() {
+    function applyFilters() {
         const keyword = searchInput.value.toLowerCase().trim();
         const selectedRole = roleFilter.value;
 
         const filtered = data.filter(row => {
-            const matchKeyword = row.some(cell => cell.toLowerCase().includes(keyword));
+            const matchKeyword = keyword === "" || row.some(cell => cell.toLowerCase().includes(keyword));
             const matchRole = selectedRole === "" || row[2] === selectedRole;
             return matchKeyword && matchRole;
         });
@@ -98,8 +96,9 @@ document.addEventListener("DOMContentLoaded", function () {
         renderTable(filtered);
     }
 
-    searchInput.addEventListener("input", filterAndRender);
-    roleFilter.addEventListener("change", filterAndRender);
+    // Lọc lại mỗi khi người dùng gõ tên hoặc chọn ngành
+    searchInput.addEventListener("input", applyFilters);
+    roleFilter.addEventListener("change", applyFilters);
 
     loadCSV();
 });
