@@ -51,27 +51,8 @@ document.addEventListener("DOMContentLoaded", function () {
         filteredData.forEach(row => {
             const tr = document.createElement("tr");
 
-            const role = row[2];
-            let bgColor = "#cccccc";
-            let textColor = "#000000";
-
-            switch (role) {
-                case "Toán": bgColor = "#ffff66"; break;
-                case "Lý": bgColor = "#66cc66"; textColor = "#fff"; break;
-                case "Hóa": bgColor = "#3399ff"; textColor = "#fff"; break;
-                case "Sinh": bgColor = "#ff9900"; break;
-                case "Văn": bgColor = "#ff3333"; textColor = "#fff"; break;
-                case "Sử": bgColor = "#cc0000"; textColor = "#fff"; break;
-                case "Địa": bgColor = "#996633"; textColor = "#fff"; break;
-                case "GDCD": bgColor = "#9966cc"; textColor = "#fff"; break;
-                case "GDTC": bgColor = "#663399"; textColor = "#fff"; break;
-                case "Tâm lý": bgColor = "#0000CC"; textColor = "#fff"; break;
-            }
-
             const nameCell = document.createElement("td");
             nameCell.textContent = row[0];
-            nameCell.style.backgroundColor = bgColor;
-            nameCell.style.color = textColor;
             nameCell.style.cursor = "pointer";
             nameCell.onclick = () => {
                 detailName.textContent = row[0];
@@ -88,14 +69,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const codeCell = document.createElement("td");
             codeCell.textContent = row[1];
-            codeCell.style.backgroundColor = bgColor;
-            codeCell.style.color = textColor;
             tr.appendChild(codeCell);
 
             const roleCell = document.createElement("td");
             roleCell.textContent = row[2];
-            roleCell.style.backgroundColor = bgColor;
-            roleCell.style.color = textColor;
             tr.appendChild(roleCell);
 
             tableBody.appendChild(tr);
