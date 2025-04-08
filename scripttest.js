@@ -32,12 +32,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 .filter(line => line.trim() !== "")
                 .map(line => {
                     let cells = line.split(',').map(cell => cell.trim());
-                    while (cells.length < 8) cells.push(""); // Đảm bảo đủ 8 cột
+                    if (cells.length < 8) {
+                        while (cells.length < 8) cells.push(""); // đảm bảo đủ 8 cột
+                    }
                     if (!cells[7]) cells[7] = "default.jpg";
                     return cells;
                 });
 
-            applyFilters(); // ban đầu hiển thị đầy đủ
+            applyFilters();
         } catch (error) {
             console.error("🚨 Lỗi khi tải file CSV:", error);
         }
@@ -88,15 +90,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const selectedRole = roleFilter.value;
 
         const filtered = data.filter(row => {
-            const matchKeyword = keyword === "" || row.some(cell => cell.toLowerCase().includes(keyword));
+            const matchName = keyword === "" || row[0].toLowerCase().includes(keyword); // chỉ lọc theo tên
             const matchRole = selectedRole === "" || row[2] === selectedRole;
-            return matchKeyword && matchRole;
+            return matchName && matchRole;
         });
 
         renderTable(filtered);
     }
 
-    // Lọc lại mỗi khi người dùng gõ tên hoặc chọn ngành
     searchInput.addEventListener("input", applyFilters);
     roleFilter.addEventListener("change", applyFilters);
 
