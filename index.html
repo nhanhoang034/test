@@ -71,90 +71,29 @@
     <!-- Modal chi tiết -->
     <div id="detailModal" class="modal" style="display: none;">
         <div class="detail-content">
-            <span class="close-detail" onclick="closeDetailModal()">&times;</span>
+            <span class="close-detail">&times;</span>
             <div class="detail-body">
                 <img id="detailImage" src="default.jpg" alt="Ảnh" style="width: 200px; height: auto;">
                 <div class="info-text">
                     <p><strong>Họ và Tên:</strong> <span id="detailName"></span></p>
-                    <p><strong>Mã Sinh Viên:</strong> <span id="detailId"></span></p>
+                    <p><strong>Mã Sinh Viên:</strong> <span id="detailID"></span></p>
                     <p><strong>Ngành học:</strong> <span id="detailMajor"></span></p>
                     <p><strong>Ngày sinh:</strong> <span id="detailBirth"></span></p>
                     <p><strong>Giới tính:</strong> <span id="detailGender"></span></p>
-                    <p><strong>Quê quán:</strong> <span id="detailAddress"></span></p>
-                    <p><strong>Số điện thoại:</strong> <span id="detailPhone"></span></p>
-                    <p><strong>Email:</strong> <span id="detailEmail"></span></p>
+                    <p><strong>Quê quán:</strong> <span id="detailHome"></span></p>
+                    <p><strong>Số điện thoại:</strong> <span id="detailLive"></span></p>
+                    <p><strong>Email:</strong> <span id="detailStart"></span></p>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="scripttest.js"></script>
     <script>
-        let students = [];
-
-        async function fetchData() {
-            const res = await fetch('datatest.csv');
-            const text = await res.text();
-            const lines = text.split(/\r?\n/).filter(line => line.trim() !== "");
-            students = lines.map(line => {
-                const [name, id, major, birth, gender, address, phone, email, image] = line.split(',').map(x => x.trim());
-                return { name, id, major, birth, gender, address, phone, email, image };
-            });
-            displayStudents();
-        }
-
-        function displayStudents() {
-            const table = document.getElementById("memberTable");
-            const keyword = document.getElementById("searchInput").value.toLowerCase();
-            const filterRole = document.getElementById("roleFilter").value;
-            table.innerHTML = "";
-
-            let count = 0;
-            students.forEach(student => {
-                if (
-                    (student.name.toLowerCase().includes(keyword) || student.id.toLowerCase().includes(keyword)) &&
-                    (filterRole === "" || student.major === filterRole)
-                ) {
-                    const row = document.createElement("tr");
-                    row.innerHTML = `
-                        <td>${student.name}</td>
-                        <td>${student.id}</td>
-                        <td>${student.major}</td>
-                    `;
-                    row.onclick = () => showDetail(student);
-                    table.appendChild(row);
-                    count++;
-                }
-            });
-
-            document.getElementById("totalCount").innerText = `Hiện có: ${count} sinh viên`;
-        }
-
-        function showDetail(student) {
-            document.getElementById("detailName").innerText = student.name;
-            document.getElementById("detailId").innerText = student.id;
-            document.getElementById("detailMajor").innerText = student.major;
-            document.getElementById("detailBirth").innerText = student.birth;
-            document.getElementById("detailGender").innerText = student.gender;
-            document.getElementById("detailAddress").innerText = student.address;
-            document.getElementById("detailPhone").innerText = student.phone;
-            document.getElementById("detailEmail").innerText = student.email;
-            document.getElementById("detailImage").src = student.image || "default.jpg";
-            document.getElementById("detailModal").style.display = "block";
-        }
-
-        function closeDetailModal() {
-            document.getElementById("detailModal").style.display = "none";
-        }
-
         function logout() {
             localStorage.removeItem("isLoggedIn");
             window.location.href = "login.html";
         }
-
-        document.getElementById("searchInput").addEventListener("input", displayStudents);
-        document.getElementById("roleFilter").addEventListener("change", displayStudents);
-
-        fetchData();
     </script>
 </body>
 </html>

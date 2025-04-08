@@ -8,12 +8,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const detailModal = document.getElementById("detailModal");
     const detailImage = document.getElementById("detailImage");
     const detailName = document.getElementById("detailName");
-    const detailBirth = document.getElementById("detailBirth");
+    const detailID = document.getElementById("detailId");
     const detailMajor = document.getElementById("detailMajor");
-    const detailID = document.getElementById("detailID");
-    const detailHome = document.getElementById("detailHome");
-    const detailLive = document.getElementById("detailLive");
-    const detailStart = document.getElementById("detailStart");
+    const detailBirth = document.getElementById("detailBirth");
+    const detailGender = document.getElementById("detailGender");
+    const detailAddress = document.getElementById("detailAddress");
+    const detailPhone = document.getElementById("detailPhone");
+    const detailEmail = document.getElementById("detailEmail");
 
     document.querySelector(".close-detail").onclick = () => detailModal.style.display = "none";
     window.onclick = function (event) {
@@ -32,10 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 .filter(line => line.trim() !== "")
                 .map(line => {
                     let cells = line.split(',').map(cell => cell.trim());
-                    if (cells.length < 8) {
-                        while (cells.length < 8) cells.push(""); // đảm bảo đủ 8 cột
-                    }
-                    if (!cells[7]) cells[7] = "default.jpg";
+                    while (cells.length < 9) cells.push(""); // đảm bảo đủ 9 cột
                     return cells;
                 });
 
@@ -58,11 +56,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 detailName.textContent = row[0];
                 detailID.textContent = row[1];
                 detailMajor.textContent = row[2];
-                detailImage.src = row[7] || "default.jpg";
                 detailBirth.textContent = row[3] || "(chưa rõ)";
-                detailHome.textContent = row[4] || "(chưa rõ)";
-                detailLive.textContent = row[5] || "(chưa rõ)";
-                detailStart.textContent = row[6] || "(chưa rõ)";
+                detailGender.textContent = row[4] || "(chưa rõ)";
+                detailAddress.textContent = row[5] || "(chưa rõ)";
+                detailPhone.textContent = row[6] || "(chưa rõ)";
+                detailEmail.textContent = row[7] || "(chưa rõ)";
+                detailImage.src = row[8] || "default.jpg";
                 detailModal.style.display = "block";
             };
             tr.appendChild(nameCell);
@@ -90,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const selectedRole = roleFilter.value;
 
         const filtered = data.filter(row => {
-            const matchName = keyword === "" || row[0].toLowerCase().includes(keyword); // chỉ lọc theo tên
+            const matchName = keyword === "" || row[0].toLowerCase().includes(keyword) || row[1].toLowerCase().includes(keyword);
             const matchRole = selectedRole === "" || row[2] === selectedRole;
             return matchName && matchRole;
         });
