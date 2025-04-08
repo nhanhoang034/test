@@ -43,6 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function renderTable(filteredData) {
+        if (!tableBody) return;
+
         tableBody.innerHTML = "";
 
         filteredData.forEach(row => {
@@ -59,7 +61,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 detailHome.textContent = row[4] || "(chưa rõ)";
                 detailLive.textContent = row[5] || "(chưa rõ)";
                 detailStart.textContent = row[6] || "(chưa rõ)";
-                detailImage.src = row[7] || "default.jpg";
+
+                // Thêm xử lý ảnh: nếu không có thì gán ảnh mặc định
+                let imgPath = row[7] && row[7] !== "" ? row[7] : "images/default.jpg";
+                if (!imgPath.startsWith("images/") && imgPath !== "default.jpg") {
+                    imgPath = "images/" + imgPath;
+                }
+                detailImage.src = imgPath;
+
                 detailModal.style.display = "block";
             };
             tr.appendChild(nameCell);
@@ -79,12 +88,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function updateTotalCount(count) {
-        totalCount.textContent = `Hiện có: ${count} sinh viên`;
+        if (totalCount) {
+            totalCount.textContent = `Hiện có: ${count} sinh viên`;
+        }
     }
 
     function applyFilters() {
-        const keyword = searchInput.value.toLowerCase().trim();
-        const selectedRole = roleFilter.value;
+        const keyword = searchInput?.value.toLowerCase().trim() || "";
+        const selectedRole = roleFilter?.value || "";
 
         const filtered = data.filter(row => {
             const matchName = keyword === "" || row[0].toLowerCase().includes(keyword) || row[1].toLowerCase().includes(keyword);
@@ -95,8 +106,13 @@ document.addEventListener("DOMContentLoaded", function () {
         renderTable(filtered);
     }
 
-    searchInput.addEventListener("input", applyFilters);
-    roleFilter.addEventListener("change", applyFilters);
+    searchInput?.addEventListener("input", applyFilters);
+    roleFilter?.addEventListener("change", applyFilters);
+
+    // Không reload khi nhấn Enter trong ô tìm kiếm
+    searchInput?.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") e.preventDefault();
+    });
 
     loadCSV();
 });
